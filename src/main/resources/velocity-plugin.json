@@ -1,0 +1,7 @@
+{
+  "id": "leftlabel",
+  "name": "LeftLabel",
+  "version": "1.0.0",
+  "authors": ["Qwertydev"],
+  "main": "dev.qwery.leftlabel.LeftLabel"
+}
