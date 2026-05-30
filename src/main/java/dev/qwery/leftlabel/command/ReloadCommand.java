@@ -4,6 +4,7 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import dev.qwery.leftlabel.config.ConfigManager;
 import dev.qwery.leftlabel.listener.LabelInjector;
+import dev.qwery.leftlabel.resourcepack.PackServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.slf4j.Logger;
@@ -16,11 +17,13 @@ public class ReloadCommand implements SimpleCommand {
 
     private final ConfigManager configManager;
     private final LabelInjector labelInjector;
+    private final PackServer packServer;
     private final Logger logger;
 
-    public ReloadCommand(ConfigManager configManager, LabelInjector labelInjector, Logger logger) {
+    public ReloadCommand(ConfigManager configManager, LabelInjector labelInjector, PackServer packServer, Logger logger) {
         this.configManager = configManager;
         this.labelInjector = labelInjector;
+        this.packServer = packServer;
         this.logger = logger;
     }
 
@@ -42,6 +45,7 @@ public class ReloadCommand implements SimpleCommand {
         switch (args[0].toLowerCase()) {
             case "reload" -> {
                 configManager.load();
+                packServer.restart();
                 source.sendMessage(Component.text("LeftLabel config reloaded.", NamedTextColor.GREEN));
                 logger.info("LeftLabel config reloaded by {}.", source);
             }

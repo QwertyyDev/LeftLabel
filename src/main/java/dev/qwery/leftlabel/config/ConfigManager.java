@@ -21,6 +21,8 @@ public class ConfigManager {
 
     private String rawLabel;
     private Component labelComponent;
+    private int packPort;
+    private String packHost;
 
     public ConfigManager(Path dataDirectory, Logger logger) {
         this.dataDirectory = dataDirectory;
@@ -47,10 +49,14 @@ public class ConfigManager {
             Yaml yaml = new Yaml();
             try (InputStream in = Files.newInputStream(configFile)) {
                 Map<String, Object> data = yaml.load(in);
-                if (data != null && data.containsKey("label")) {
-                    rawLabel = String.valueOf(data.get("label"));
+                if (data != null) {
+                    rawLabel = data.containsKey("label") ? String.valueOf(data.get("label")) : "<gradient:gold:yellow>[LABEL]</gradient>";
+                    packPort = data.containsKey("pack-port") ? (int) data.get("pack-port") : 8765;
+                    packHost = data.containsKey("pack-host") ? String.valueOf(data.get("pack-host")) : "auto";
                 } else {
                     rawLabel = "<gradient:gold:yellow>[LABEL]</gradient>";
+                    packPort = 8765;
+                    packHost = "auto";
                 }
             }
 
@@ -59,6 +65,8 @@ public class ConfigManager {
         } catch (IOException e) {
             logger.error("Failed to load config.yml", e);
             rawLabel = "<gradient:gold:yellow>[LABEL]</gradient>";
+            packPort = 8765;
+            packHost = "auto";
             labelComponent = MINI_MESSAGE.deserialize(rawLabel);
         }
     }
@@ -69,5 +77,13 @@ public class ConfigManager {
 
     public String getRawLabel() {
         return rawLabel;
+    }
+
+    public int getPackPort() {
+        return packPort;
+    }
+
+    public String getPackHost() {
+        return packHost;
     }
 }

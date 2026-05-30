@@ -1,1 +1,4 @@
-label: "<gradient:gold:yellow>Bize Katıl »</gradient>"
+label: "<gradient:gold:yellow>Bize Katıl</gradient>"
+
+pack-host: "auto"
+pack-port: 8765
